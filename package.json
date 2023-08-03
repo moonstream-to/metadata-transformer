@@ -1,0 +1,37 @@
+{
+  "name": "@moonstream-to/metadata",
+  "version": "0.0.1",
+  "description": "The Moonstream Metadata Transformer",
+  "main": "src/server.ts",
+  "scripts": {
+    "build": "./node_modules/.bin/tsc",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "start": "tsc && node build/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/moonstream-to/api.git"
+  },
+  "keywords": [
+    "web3"
+  ],
+  "author": "Moonstream Engineering (engineering@moonstream.to)",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/moonstream-to/api/issues"
+  },
+  "homepage": "https://github.com/moonstream-to/api#readme",
+  "devDependencies": {
+    "@types/cors": "^2.8.13",
+    "@types/express": "^4.17.17",
+    "@types/node": "^20.4.6",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.1.6"
+  },
+  "dependencies": {
+    "axios": "^1.4.0",
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  }
+}
