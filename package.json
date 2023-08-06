@@ -1,17 +1,16 @@
 {
-  "name": "@moonstream-to/metadata",
+  "name": "@moonstream-to/metadata-transformer",
   "version": "0.0.1",
   "description": "The Moonstream Metadata Transformer",
   "main": "src/server.ts",
   "scripts": {
     "build": "./node_modules/.bin/tsc",
-    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
-    "start": "tsc && node build/server.js",
+    "polygon-inventories": "ts-node-dev --respawn --transpile-only src/run/polygonInventories.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/moonstream-to/api.git"
+    "url": "git+https://github.com/moonstream-to/metadata-transformer.git"
   },
   "keywords": [
     "web3"
@@ -19,9 +18,9 @@
   "author": "Moonstream Engineering (engineering@moonstream.to)",
   "license": "Apache-2.0",
   "bugs": {
-    "url": "https://github.com/moonstream-to/api/issues"
+    "url": "https://github.com/moonstream-to/metadata-transformer/issues"
   },
-  "homepage": "https://github.com/moonstream-to/api#readme",
+  "homepage": "https://github.com/moonstream-to/metadata-transformer#readme",
   "devDependencies": {
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",

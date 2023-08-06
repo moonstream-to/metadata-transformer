@@ -26,6 +26,7 @@ export type MetadataTransformer = (
   baseMetadata?: ERC721Metadata
 ) => Promise<ERC721Metadata>;
 
+// Chains together multiple transformers one after another, in the order specified.
 export function chain(
   ...transformers: MetadataTransformer[]
 ): MetadataTransformer {

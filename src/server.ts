@@ -3,10 +3,9 @@
 import cors from "cors";
 import express, { Request, Response } from "express";
 
-import { chain, MetadataTransformer } from "./data";
+import { MetadataTransformer } from "./data";
 import { PORT, web3 } from "./settings";
 import tokenURI from "./transformers/tokenURI";
-import createInventoryTransformer from "./transformers/inventory";
 
 export default function run(transformer: MetadataTransformer) {
   const app = express();
@@ -54,13 +53,3 @@ export default function run(transformer: MetadataTransformer) {
     console.log(`Metadata Transformer running on ${PORT}`);
   });
 }
-
-run(
-  chain(
-    tokenURI,
-    createInventoryTransformer({
-      "0xC740674d2DafF5e59284Fc10a39C862A53BF627D":
-        "0x96f47A4FBBFE506e2EFC60a04E37dE82A8564e8C",
-    })
-  )
-);
