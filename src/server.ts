@@ -5,7 +5,6 @@ import express, { Request, Response } from "express";
 
 import { chain, MetadataTransformer } from "./data";
 import { PORT, web3 } from "./settings";
-import tokenURI from "./transformers/tokenURI";
 
 export default function run(...transformers: MetadataTransformer[]) {
   if (transformers.length === 0) {
