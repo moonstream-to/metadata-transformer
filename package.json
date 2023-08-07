@@ -1,7 +1,7 @@
 {
-  "name": "@moonstream-to/metadata-transformer",
+  "name": "metadata-transformer",
   "version": "0.0.1",
-  "description": "The Moonstream Metadata Transformer",
+  "description": "The Metadata Transformer",
   "main": "src/server.ts",
   "scripts": {
     "build": "./node_modules/.bin/tsc",
