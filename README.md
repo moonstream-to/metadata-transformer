@@ -167,5 +167,7 @@ or [create an issue](https://github.com/moonstream-to/metadata-transformer/issue
 
 The Metadata Transformer originally surfaced in this issue: https://github.com/moonstream-to/api/issues/834
 
+The [EIP6551 `iframe` renderer](https://github.com/tokenbound/iframe) was a major inspiration for this project.
+
 [`arevak`](https://github.com/arevak) gave very helpful early feedback, and most of his suggestions were incorporated
 in [`v0.0.2`](https://github.com/moonstream-to/metadata-transformer/releases/tag/v0.0.2).
