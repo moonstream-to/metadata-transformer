@@ -1,7 +1,5 @@
 # Metadata Transformer
 
-[![GitHub](https://img.shields.io/github/stars/moonstream-to/metadata-transformer?style=social)](https://github.com/moonstream-to/metadata-transformer)
-
 The Metadata Transformer is a self-hostable metadata server for web3 games.
 
 Starting with [ERC721](https://eips.ethereum.org/EIPS/eip-721), NFT projects have been using JSON-based,
