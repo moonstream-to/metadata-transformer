@@ -142,9 +142,30 @@ The token ID for the item is `3`, and the amout of those items is equipped in th
 
 ### Custom transformers
 
-TODO(zomglings): Write this section
+Metadata Transformer is intended to serve JSON metadata representing any on-chain state, no matter how
+specific it is to your game or NFT collection. You can represent such custom state by writing your
+own `MetadataTransformer` functions.
+
+The `MetadataTransformer` type is defined in [`src/data.ts`](./src/data.ts) as:
+
+```typescript
+export type MetadataTransformer = (
+  contractAddress: string,
+  tokenID: string,
+  baseMetadata?: ERC721Metadata
+) => Promise<ERC721Metadata>;
+```
+
+For an example of how to implement a custom `MetadataTransformer`, see [`src/transformers/inventory.ts`](./src/transformers/inventory.ts).
 
 ## Support
 
 Experiencing an issue with Metadata Transformer? [See if it's already been solved](https://github.com/moonstream-to/metadata-transformer/issues/new)
 or [create an issue](https://github.com/moonstream-to/metadata-transformer/issues/new).
+
+## Acknowledgments
+
+The Metadata Transformer originally surfaced in this issue: https://github.com/moonstream-to/api/issues/834
+
+[`arevak`](https://github.com/arevak) gave very helpful early feedback, and most of his suggestions were incorporated
+in [`v0.0.2`](https://github.com/moonstream-to/metadata-transformer/releases/tag/v0.0.2).
