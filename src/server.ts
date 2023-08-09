@@ -2,74 +2,46 @@
 
 import cors from "cors";
 import express, { Request, Response } from "express";
+import { Web3 } from "web3";
 
+import configure from ".";
 import { chain, MetadataTransformer } from "./data";
-import { PORT, web3 } from "./settings";
+
+// Loads server configuration from environment variables.
+const PORT_RAW = process.env.METADATA_TRANSFORMER_PORT || "6374";
+const PORT = Number(PORT_RAW);
+
+const WEB3_PROVIDER_URI = process.env.METADATA_TRANSFORMER_WEB3_PROVIDER_URI;
+if (!WEB3_PROVIDER_URI) {
+  throw new Error("Please set the METADATA_TRANSFORMER_WEB3_PROVIDER_URI");
+}
+export const web3 = new Web3(
+  new Web3.providers.HttpProvider(WEB3_PROVIDER_URI)
+);
+
+async function serverStatus(): Promise<object> {
+  const serverTimestamp = Math.floor(Date.now() / 1000);
+  const chainIDRaw = await web3.eth.getChainId();
+  const chainID = Number(chainIDRaw);
+  const block = await web3.eth.getBlock();
+  const blockNumber = Number(block.number);
+  const blockTimestamp = Number(block.timestamp);
+  return {
+    PORT,
+    chainID,
+    blockNumber,
+    blockTimestamp,
+    serverTimestamp,
+  };
+}
 
 // TODO(zomglings): Proper error handling in Express - https://expressjs.com/en/guide/error-handling.html
-export default function run(...transformers: MetadataTransformer[]) {
-  if (transformers.length === 0) {
-    throw new Error("No transformers provided.");
-  }
-
-  const raw = transformers[0];
-  const cumulativeTransform = chain(...transformers);
-
+export function run(...transformers: MetadataTransformer[]) {
   const app = express();
   app.use(cors());
   app.use(express.json());
 
-  app.get("/status", async (_: Request, res: Response) => {
-    try {
-      const serverTimestamp = Math.floor(Date.now() / 1000);
-      const chainIDRaw = await web3.eth.getChainId();
-      const chainID = Number(chainIDRaw);
-      const block = await web3.eth.getBlock();
-      const blockNumber = Number(block.number);
-      const blockTimestamp = Number(block.timestamp);
-      const responseBody = {
-        PORT,
-        chainID,
-        blockNumber,
-        blockTimestamp,
-        serverTimestamp,
-      };
-      return res.status(200).json(responseBody);
-    } catch (e) {
-      console.error(e);
-      return res.status(500).json({ error: e });
-    }
-  });
-
-  app.get(
-    "/raw/:contractAddress/:tokenID",
-    async (req: Request, res: Response) => {
-      try {
-        const contractAddress = req.params.contractAddress;
-        const tokenID = req.params.tokenID;
-        const metadata = await raw(contractAddress, tokenID);
-        return res.status(200).json(metadata);
-      } catch (e) {
-        console.error(e);
-        return res.status(500).json({ error: e });
-      }
-    }
-  );
-
-  app.get(
-    "/transformed/:contractAddress/:tokenID",
-    async (req: Request, res: Response) => {
-      try {
-        const contractAddress = req.params.contractAddress;
-        const tokenID = req.params.tokenID;
-        const metadata = await cumulativeTransform(contractAddress, tokenID);
-        return res.status(200).json(metadata);
-      } catch (e) {
-        console.error(e);
-        return res.status(500).json({ error: e });
-      }
-    }
-  );
+  configure(app, serverStatus, ...transformers);
 
   app.listen(PORT, () => {
     console.log(`Metadata Transformer running on ${PORT}`);
