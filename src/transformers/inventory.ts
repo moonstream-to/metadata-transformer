@@ -52,10 +52,10 @@ export function createInventoryTransformer(
       for (let slot = 0; slot < numSlots; slot++) {
         // TODO(zomglings): I think we should start using Typechain so that we avoid these kinds of
         // Typescript errors and issues.
-        const equippedItem = await inventory.methods
+        const equippedItem = (await inventory.methods
           // @ts-ignore -- Typescript doesn't understand the variadic arguments to myContract.methods.myMethod.
           .getEquippedItem(tokenID, slot)
-          .call();
+          .call()) as [bigint, string, bigint, bigint];
 
         result.attributes.push({
           trait_type: `slot_${slot.toString()}`,

@@ -1,5 +1,4 @@
-import { chain, MetadataTransformer } from "../data";
-import { run, web3 } from "../server";
+import { run, web3 } from "./run";
 import { createTokenURITransformer } from "../transformers/tokenURI";
 import { createInventoryTransformer } from "../transformers/inventory";
 

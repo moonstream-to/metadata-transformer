@@ -4,8 +4,8 @@ import cors from "cors";
 import express, { Request, Response } from "express";
 import { Web3 } from "web3";
 
-import configure from ".";
-import { chain, MetadataTransformer } from "./data";
+import metadataTransformer from "../index";
+import { MetadataTransformer } from "../data";
 
 // Loads server configuration from environment variables.
 const PORT_RAW = process.env.METADATA_TRANSFORMER_PORT || "6374";
@@ -41,7 +41,7 @@ export function run(...transformers: MetadataTransformer[]) {
   app.use(cors());
   app.use(express.json());
 
-  configure(app, serverStatus, ...transformers);
+  metadataTransformer(app, serverStatus, ...transformers);
 
   app.listen(PORT, () => {
     console.log(`Metadata Transformer running on ${PORT}`);
