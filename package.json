@@ -1,13 +1,14 @@
 {
   "name": "metadata-transformer",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "The Metadata Transformer",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
     "build": "./node_modules/.bin/tsc",
     "prepare": "./node_modules/.bin/tsc",
-    "polygon-inventories": "ts-node-dev --respawn --transpile-only src/run/polygonInventories.ts",
+    "polygon-inventories": "./node_modules/.bin/tsc && node build/servers/polygonInventories.js",
+    "polygon-inventories-dev": "ts-node-dev --respawn --transpile-only src/servers/polygonInventories.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
