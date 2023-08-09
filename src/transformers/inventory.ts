@@ -1,5 +1,5 @@
+import { Web3 } from "web3";
 import { ERC721Metadata, MetadataTransformer } from "../data";
-import { web3 } from "../settings";
 
 // createInventoryTransformer generates a transformer which enriches ERC721 token metadata with the
 // items that have been equipped in the token's inventory.
@@ -7,7 +7,8 @@ import { web3 } from "../settings";
 // createInventoryTransformer accepts an argument called `inventories`. This is expected to be a
 // mapping from ERC721 contract addresses to corresponding Inventory contract addresses.
 // The keys in `inventories` are exected to be checksummed addresses.
-export default function createInventoryTransformer(
+export function createInventoryTransformer(
+  web3: Web3,
   inventories: Record<string, string>,
   multicallAddress?: string
 ): MetadataTransformer {
@@ -60,7 +61,7 @@ export default function createInventoryTransformer(
           trait_type: `slot_${slot.toString()}`,
           value: `${equippedItem[0].toString()}:${
             equippedItem[1]
-          }:${equippedItem[2].toString()}:${equippedItem[3].toString()}}`,
+          }:${equippedItem[2].toString()}:${equippedItem[3].toString()}`,
         });
       }
     }

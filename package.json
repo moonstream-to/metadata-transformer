@@ -1,9 +1,9 @@
 {
   "name": "metadata-transformer",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "The Metadata Transformer",
-  "main": "build/server.js",
-  "types": "build/server.d.ts",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
   "scripts": {
     "build": "./node_modules/.bin/tsc",
     "prepare": "./node_modules/.bin/tsc",
