@@ -5,8 +5,14 @@ export default function redisCache(connectionArgs?: any) {
   const cache = createClient(connectionArgs);
   cache.connect();
   return async (req: Request, res: Response, next: NextFunction) => {
-    let cachedMetadata = await cache.get(req.url);
-    if (!!cachedMetadata) {
+    let isCacheWorking: boolean = true;
+    let cachedMetadata: any = null;
+    try {
+      cachedMetadata = await cache.get(req.url);
+    } catch {
+      isCacheWorking = false;
+    }
+    if (isCacheWorking && !!cachedMetadata) {
       res.send(cachedMetadata);
     } else {
       const originalSend = res.send.bind(res);
