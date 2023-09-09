@@ -1,7 +1,7 @@
 // Configures the Metadata Transformer express server and starts the server process
 
 import cors from "cors";
-import express, { Request, Response } from "express";
+import express, { Express, Request, Response } from "express";
 import { Web3 } from "web3";
 
 import metadataTransformer from "../index";
@@ -35,12 +35,10 @@ async function serverStatus(): Promise<object> {
   };
 }
 
-// TODO(zomglings): Proper error handling in Express - https://expressjs.com/en/guide/error-handling.html
-export function run(...transformers: MetadataTransformer[]) {
-  const app = express();
-  app.use(cors());
-  app.use(express.json());
-
+// Callers inject an express application to this function. It sets up the metadata-transformer endpoints
+// and runs the application on the port specified by the METADATA_TRANSFORMER_PORT environment variable, defaulting
+// to port 6374.
+export function run(app: Express, ...transformers: MetadataTransformer[]) {
   metadataTransformer(app, serverStatus, ...transformers);
 
   app.listen(PORT, () => {

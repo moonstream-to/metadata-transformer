@@ -1,9 +1,21 @@
+import cors from "cors";
+import express from "express";
+
 import { run, web3 } from "./run";
+import { simpleLogger } from "../middleware/logging";
+import redisCache from "../middleware/redisCache";
 import { createTokenURITransformer } from "../transformers/tokenURI";
 import { createInventoryTransformer } from "../transformers/inventory";
 
+const app = express();
+app.use(simpleLogger);
+app.use(cors());
+app.use(express.json());
+app.use(redisCache());
+
 // Chain ID should be 137 - this is intended to run against Polygon mainnet.
 run(
+  app,
   createTokenURITransformer(web3),
   createInventoryTransformer(web3, {
     "0xC740674d2DafF5e59284Fc10a39C862A53BF627D":
