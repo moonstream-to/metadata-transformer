@@ -3,7 +3,7 @@ import express from "express";
 
 import { run, web3 } from "./run";
 import { simpleLogger } from "../middleware/logging";
-import redisCache from "../middleware/redisCache";
+import { redisCache, cacheOptionsFromEnv } from "../middleware/redisCache";
 import { createTokenURITransformer } from "../transformers/tokenURI";
 import { createInventoryTransformer } from "../transformers/inventory";
 
@@ -14,8 +14,15 @@ app.use(simpleLogger);
 app.use(cors());
 app.use(express.json());
 if (!!USE_REDIS && USE_REDIS !== "false") {
-  // TODO(zomglings): Add an environment variable here. Not urgent as this is really just an example.
-  app.use(redisCache({ ttlMilliseconds: 30000 }));
+  const cacheOptions = cacheOptionsFromEnv();
+  if (cacheOptions.ttlMilliseconds > 0) {
+    console.info(
+      `Loading Redis cache middleware -- METADATA_TRANSFORMER_CACHE_TTL_MILLIS: ${cacheOptions.ttlMilliseconds}, METADATA_TRANSFORMER_CACHE_TRACING: ${cacheOptions.tracing}`
+    );
+    app.use(redisCache(cacheOptions));
+  } else {
+    console.warn("Cache TTL set to 0 milliseconds, skipping middleware.");
+  }
 }
 
 // Chain ID should be 137 - this is intended to run against Polygon mainnet.

@@ -8,7 +8,31 @@ export interface MetadataTransformerCacheOptions {
   tracing: boolean;
 }
 
-export default function redisCache(
+export function cacheOptionsFromEnv(): MetadataTransformerCacheOptions {
+  const ttlMillisecondsRaw = process.env.METADATA_TRANSFORMER_CACHE_TTL_MILLIS;
+  if (!ttlMillisecondsRaw) {
+    throw new Error(
+      "Please set the METADATA_TRANSFORMER_CACHE_TTL_MILLIS environment variable"
+    );
+  }
+
+  let ttlMilliseconds = 0;
+  try {
+    ttlMilliseconds = parseInt(ttlMillisecondsRaw);
+  } catch {
+    throw new Error(
+      `Could not parse METADATA_TRANSFORMER_CACHE_TTL_MILLIS environment variable as an integer: ${ttlMillisecondsRaw}`
+    );
+  }
+
+  const tracingRaw = process.env.METADATA_TRANSFORMER_CACHE_TRACING || "false";
+  const falseValues = ["0", "false", "f", "no", "n"];
+  const tracing = !falseValues.includes(tracingRaw.toLowerCase());
+
+  return { ttlMilliseconds, tracing };
+}
+
+export function redisCache(
   cacheArgs: MetadataTransformerCacheOptions,
   connectionArgs?: RedisClientOptions
 ) {
