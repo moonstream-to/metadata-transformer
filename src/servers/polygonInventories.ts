@@ -1,14 +1,17 @@
 import cors from "cors";
 import express from "express";
+import { createClient } from "redis";
 
 import { run, web3 } from "./run";
 import { simpleLogger } from "../middleware/logging";
-import { redisCache, cacheOptionsFromEnv } from "../middleware/redisCache";
+import {
+  redisCachingMiddleware,
+  cacheOptionsFromEnv,
+} from "../middleware/redisCache";
 import { createTokenURITransformer } from "../transformers/tokenURI";
 import { createInventoryTransformer } from "../transformers/inventory";
 
 const USE_REDIS = process.env.METADATA_TRANSFORMER_USE_REDIS || "false";
-
 const app = express();
 app.use(simpleLogger);
 app.use(cors());
@@ -19,7 +22,10 @@ if (!!USE_REDIS && USE_REDIS !== "false") {
     console.info(
       `Loading Redis cache middleware -- METADATA_TRANSFORMER_CACHE_TTL_MILLIS: ${cacheOptions.ttlMilliseconds}, METADATA_TRANSFORMER_CACHE_TRACING: ${cacheOptions.tracing}`
     );
-    app.use(redisCache(cacheOptions));
+
+    const cache = createClient();
+    cache.connect();
+    app.use(redisCachingMiddleware(cacheOptions, cache));
   } else {
     console.warn("Cache TTL set to 0 milliseconds, skipping middleware.");
   }

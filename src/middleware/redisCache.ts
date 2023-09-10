@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from "express";
-import { createClient, RedisClientOptions } from "redis";
+import { createClient } from "redis";
 
 import { TRACE_HEADER } from "./logging";
 
@@ -32,13 +32,10 @@ export function cacheOptionsFromEnv(): MetadataTransformerCacheOptions {
   return { ttlMilliseconds, tracing };
 }
 
-export function redisCache(
+export function redisCachingMiddleware(
   cacheArgs: MetadataTransformerCacheOptions,
-  connectionArgs?: RedisClientOptions
+  cache: ReturnType<typeof createClient>
 ) {
-  const cache = createClient(connectionArgs);
-  cache.connect();
-
   return async (req: Request, res: Response, next: NextFunction) => {
     const requestTime = new Date();
 
