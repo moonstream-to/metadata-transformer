@@ -1,11 +1,14 @@
 import { Request, Response, NextFunction } from "express";
 import { v4 as uuid4 } from "uuid";
 
+export const TRACE_HEADER = "x-metadata-transformer-trace-id";
+
 export function simpleLogger(req: Request, res: Response, next: NextFunction) {
   const internalRequestTraceID = uuid4();
   const requestTime = new Date();
+  req.headers[TRACE_HEADER] = internalRequestTraceID.toString();
   console.log(
-    `Request initiated: ${internalRequestTraceID} -- time: ${requestTime.toISOString()}, method: ${
+    `Request: ${internalRequestTraceID} -- Initiated -- time: ${requestTime.toISOString()}, method: ${
       req.method
     }, url: ${req.url}`
   );
@@ -16,7 +19,7 @@ export function simpleLogger(req: Request, res: Response, next: NextFunction) {
     const responseDuration = responseTime.getTime() - requestTime.getTime();
 
     console.log(
-      `Request completed: ${internalRequestTraceID} -- time: ${responseTime.toISOString()}, method: ${
+      `Request: ${internalRequestTraceID} -- Completed -- time: ${responseTime.toISOString()}, method: ${
         req.method
       }, url: ${req.url}, status: ${
         res.statusCode

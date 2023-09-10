@@ -7,11 +7,16 @@ import redisCache from "../middleware/redisCache";
 import { createTokenURITransformer } from "../transformers/tokenURI";
 import { createInventoryTransformer } from "../transformers/inventory";
 
+const USE_REDIS = process.env.METADATA_TRANSFORMER_USE_REDIS || "false";
+
 const app = express();
 app.use(simpleLogger);
 app.use(cors());
 app.use(express.json());
-app.use(redisCache());
+if (!!USE_REDIS && USE_REDIS !== "false") {
+  // TODO(zomglings): Add an environment variable here. Not urgent as this is really just an example.
+  app.use(redisCache({ ttlMilliseconds: 30000 }));
+}
 
 // Chain ID should be 137 - this is intended to run against Polygon mainnet.
 run(
