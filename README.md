@@ -138,6 +138,20 @@ Returns:
 In this case, Hero `42` has an ERC`1155` token from address `0x9BB8B28B715c9D0C0098816E9fAFDD258554de8D` equipped in `slot_1`.
 The token ID for the item is `3`, and the amout of those items is equipped in the slot is `1`.
 
+The Polygon Inventories transformer also shows how to use a Redis cache to cache metadata and reduce the
+number of RPC calls your transformer needs to make. To use this setting, you will need to be [running
+a redis server locally on port 6379](https://redis.io). Set the environment variable
+`export METADATA_TRANSFORMER_USE_REDIS=true`, and set also:
+
+```bash
+export METADATA_TRANSFORMER_CACHE_TTL_MILLIS=30000
+export METADATA_TRANSFORMER_CACHE_TRACING=1
+```
+
+(See [`sample.env`](./sample.env))
+
+The server logs will show how the cache is being used on the same requests above.
+
 ### Custom transformers
 
 Metadata Transformer is intended to serve JSON metadata representing any on-chain state, no matter how
