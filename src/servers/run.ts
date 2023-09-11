@@ -16,7 +16,7 @@ if (!WEB3_PROVIDER_URI) {
   throw new Error("Please set the METADATA_TRANSFORMER_WEB3_PROVIDER_URI");
 }
 export const web3 = new Web3(
-  new Web3.providers.HttpProvider(WEB3_PROVIDER_URI)
+  new Web3.providers.HttpProvider(WEB3_PROVIDER_URI),
 );
 
 async function serverStatus(): Promise<object> {

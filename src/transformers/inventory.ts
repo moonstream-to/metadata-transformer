@@ -10,7 +10,7 @@ import { ERC721Metadata, MetadataTransformer } from "../data";
 export function createInventoryTransformer(
   web3: Web3,
   inventories: Record<string, string>,
-  multicallAddress?: string
+  multicallAddress?: string,
 ): MetadataTransformer {
   // Normalization of keys (and values)
   for (let contractAddress in inventories) {
@@ -21,14 +21,14 @@ export function createInventoryTransformer(
   // TODO(zomglings): Implement multicall logic if multicallAddress is defined.
   if (multicallAddress) {
     console.warn(
-      "This transformer does not currently support Multicall functionality."
+      "This transformer does not currently support Multicall functionality.",
     );
   }
 
   return async function inventoryTransformer(
     contractAddress: string,
     tokenID: string,
-    baseMetadata?: ERC721Metadata
+    baseMetadata?: ERC721Metadata,
   ): Promise<ERC721Metadata> {
     const result: ERC721Metadata = baseMetadata || {
       name: "",
@@ -46,7 +46,7 @@ export function createInventoryTransformer(
     if (inventoryContractAddress) {
       const inventory = new web3.eth.Contract(
         INVENTORY_ABI,
-        inventoryContractAddress
+        inventoryContractAddress,
       );
       const numSlots: bigint = await inventory.methods.numSlots().call();
       for (let slot = 0; slot < numSlots; slot++) {

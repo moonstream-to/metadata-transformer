@@ -38,7 +38,7 @@ export default function configure(
         console.error(e);
         return res.status(500).json({ error: e });
       }
-    }
+    },
   );
 
   app.get(
@@ -53,6 +53,6 @@ export default function configure(
         console.error(e);
         return res.status(500).json({ error: e });
       }
-    }
+    },
   );
 }

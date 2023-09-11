@@ -36,7 +36,7 @@ export function createTokenURITransformer(web3: Web3): MetadataTransformer {
   async function tokenURI(
     contractAddress: string,
     tokenID: string,
-    baseMetadata?: ERC721Metadata
+    baseMetadata?: ERC721Metadata,
   ): Promise<ERC721Metadata> {
     const erc721Contract = new web3.eth.Contract(TOKENURI_ABI, contractAddress);
     // @ts-ignore -- Typescript doesn't understand the variadic arguments to myContract.methods.myMethod.
@@ -69,7 +69,7 @@ export function createTokenURITransformer(web3: Web3): MetadataTransformer {
       }
     } catch (err) {
       console.error(
-        `Error parsing metadata for contractAddress=${contractAddress}, tokenID=${tokenID}: ${err}`
+        `Error parsing metadata for contractAddress=${contractAddress}, tokenID=${tokenID}: ${err}`,
       );
     }
     return result;

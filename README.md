@@ -164,7 +164,7 @@ The `MetadataTransformer` type is defined in [`src/data.ts`](./src/data.ts) as:
 export type MetadataTransformer = (
   contractAddress: string,
   tokenID: string,
-  baseMetadata?: ERC721Metadata
+  baseMetadata?: ERC721Metadata,
 ) => Promise<ERC721Metadata>;
 ```
 

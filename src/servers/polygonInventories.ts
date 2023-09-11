@@ -20,7 +20,7 @@ if (!!USE_REDIS && USE_REDIS !== "false") {
   const cacheOptions = cacheOptionsFromEnv();
   if (cacheOptions.ttlMilliseconds > 0) {
     console.info(
-      `Loading Redis cache middleware -- METADATA_TRANSFORMER_CACHE_TTL_MILLIS: ${cacheOptions.ttlMilliseconds}, METADATA_TRANSFORMER_CACHE_TRACING: ${cacheOptions.tracing}`
+      `Loading Redis cache middleware -- METADATA_TRANSFORMER_CACHE_TTL_MILLIS: ${cacheOptions.ttlMilliseconds}, METADATA_TRANSFORMER_CACHE_TRACING: ${cacheOptions.tracing}`,
     );
 
     const cache = createClient();
@@ -38,5 +38,5 @@ run(
   createInventoryTransformer(web3, {
     "0xC740674d2DafF5e59284Fc10a39C862A53BF627D":
       "0x96f47A4FBBFE506e2EFC60a04E37dE82A8564e8C",
-  })
+  }),
 );

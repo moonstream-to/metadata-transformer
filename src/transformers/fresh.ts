@@ -4,7 +4,7 @@ import { ERC721Metadata } from "../data";
 export default async function fresh(
   contractAddress: string,
   tokenID: string,
-  baseMetadata?: ERC721Metadata
+  baseMetadata?: ERC721Metadata,
 ): Promise<ERC721Metadata> {
   return {
     name: "",
