@@ -1,11 +1,11 @@
-import express, { Express, Request, Response } from "express";
+import { Router, Request, Response } from "express";
 import { chain, MetadataTransformer } from "./data";
 
 // Configures an express.js app with Metadata Transformer endpoints.
 // Uses the given status handler and transformers.
 // This mutates the app that it is passed, which is why it has no return.
 export default function configure(
-  app: Express,
+  app: Router,
   currentStatus: () => Promise<object>,
   ...transformers: MetadataTransformer[]
 ) {
