@@ -23,7 +23,7 @@ export interface Attribute {
 export type MetadataTransformer = (
   contractAddress: string,
   tokenID: string,
-  baseMetadata?: ERC721Metadata
+  baseMetadata?: ERC721Metadata,
 ) => Promise<ERC721Metadata>;
 
 // Chains together multiple transformers one after another, in the order specified.
@@ -33,7 +33,7 @@ export function chain(
   return async function (
     contractAddress: string,
     tokenID: string,
-    baseMetadata?: ERC721Metadata
+    baseMetadata?: ERC721Metadata,
   ): Promise<ERC721Metadata> {
     let result: ERC721Metadata = baseMetadata || {
       name: "",

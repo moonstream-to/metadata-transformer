@@ -10,7 +10,7 @@ export function simpleLogger(req: Request, res: Response, next: NextFunction) {
   console.log(
     `Request: ${internalRequestTraceID} -- Initiated -- time: ${requestTime.toISOString()}, method: ${
       req.method
-    }, url: ${req.url}`
+    }, url: ${req.url}`,
   );
   // These gymnastics are necessary because express middleware `next` functions do not return promises.
   const originalSend = res.send.bind(res);
@@ -23,7 +23,7 @@ export function simpleLogger(req: Request, res: Response, next: NextFunction) {
         req.method
       }, url: ${req.url}, status: ${
         res.statusCode
-      }, duration: ${responseDuration} ms`
+      }, duration: ${responseDuration} ms`,
     );
 
     return originalSend(body);
