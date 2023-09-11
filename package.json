@@ -28,7 +28,6 @@
     "@types/cors": "^2.8.13",
     "@types/express": "^4.17.17",
     "@types/node": "^20.4.6",
-    "@types/on-headers": "^1.0.1",
     "@types/uuid": "^9.0.3",
     "@types/web3": "^1.2.2",
     "ts-node-dev": "^2.0.0",
